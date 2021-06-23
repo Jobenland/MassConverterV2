@@ -1,0 +1,19 @@
+{
+  "name": "massconverterv2",
+  "version": "1.0.0",
+  "description": "A javascript version of the mass converter feature on the original data helper",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jobenland/MassConverterV2.git"
+  },
+  "author": "Jonathan Obenland",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jobenland/MassConverterV2/issues"
+  },
+  "homepage": "https://github.com/Jobenland/MassConverterV2#readme"
+}
