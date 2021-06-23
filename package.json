@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/Jobenland/MassConverterV2/issues"
   },
-  "homepage": "https://github.com/Jobenland/MassConverterV2#readme"
+  "homepage": "https://github.com/Jobenland/MassConverterV2#readme",
+  "dependencies": {
+    "decompress": "^4.2.1",
+    "replace-ext": "^2.0.0"
+  }
 }
