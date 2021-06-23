@@ -18,6 +18,7 @@
   "homepage": "https://github.com/Jobenland/MassConverterV2#readme",
   "dependencies": {
     "decompress": "^4.2.1",
+    "line-reader": "^0.4.0",
     "replace-ext": "^2.0.0"
   }
 }
