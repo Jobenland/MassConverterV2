@@ -51,6 +51,7 @@ if (arguments.length > 2) {
                 foldersCreated = result
             })
         console.log(figures.tick.green, "Found MDAT Files and extracted their contents...")
+        console.log(foldersCreated)
         await sortFiles(foldersCreated).then(function (result) {
             experimentTypes = result
         })

@@ -1,11 +1,8 @@
 const fs = require("fs")
 const lineReader = require("line-reader")
 
-function sortfilesbyexperiment(folders, _callback){
-    let sortedFolders = {}
-    foldersParsed = 0
-    folders.forEach(folder => {
-        foldersParsed++
+function searchFolder(folder) {
+    return new Promise(function (resolve, reject) {
         let experimentFiles = {
             path: folder,
             impedance: [],
@@ -18,32 +15,43 @@ function sortfilesbyexperiment(folders, _callback){
             if (err) {
                 console.log(err)
             } else {
-                files.forEach(file => {
-                    lineReader.eachLine(`${folder}\\Run01\\${file}`, function(line, last) {
+                for (let index=0; index < files.length; index++) {
+                    lineReader.eachLine(`${folder}\\Run01\\${files[index]}`, function(line, last) {
                         if (line.includes("Exp Title: ")) {
                             if (line.includes("Impedance")) {
-                                experimentFiles['impedance'].push(`${folder}\\Run01\\${file}`)
+                                experimentFiles['impedance'].push(`${folder}\\Run01\\${files[index]}`)
                             } else if (line.includes("Galvanodynamic")) {
-                                experimentFiles['galvanodynamic'].push(`${folder}\\Run01\\${file}`)
+                                experimentFiles['galvanodynamic'].push(`${folder}\\Run01\\${files[index]}`)
                             } else if (line.includes("Galvanostatic")) {
-                                experimentFiles['galvanostatic'].push(`${folder}\\Run01\\${file}`)
+                                experimentFiles['galvanostatic'].push(`${folder}\\Run01\\${files[index]}`)
                             } else if (line.includes("Potentiostatic")) {
-                                experimentFiles['potentiostatic'].push(`${folder}\\Run01\\${file}`)
+                                experimentFiles['potentiostatic'].push(`${folder}\\Run01\\${files[index]}`)
                             } else if (line.includes("Open Circuit")) {
-                                experimentFiles['ocv'].push(`${folder}\\Run01\\${file}`)
+                                experimentFiles['ocv'].push(`${folder}\\Run01\\${files[index]}`)
                             }
                         }
                         if (last) {
-                            sortedFolders[folder] = experimentFiles
-                            if (foldersParsed == folders.length) {
-                                _callback(sortedFolders)
-                            } 
+                            resolve(experimentFiles)
                         }
                     })
-                })
+                }
             }
         }) 
-    })
+    });
+}
+
+function sortfilesbyexperiment(folders, _callback){
+    let sortDriver = async (_) => {
+        let sortedFolders = {}
+        foldersParsed = 0
+        for (let index = 0; index < folders.length; index++) {
+            await searchFolder(folders[index]).then(function(result) {
+                sortedFolders[folders[index]] = result
+            })
+        }
+        _callback(sortedFolders)
+    }
+    sortDriver()
 }
 
 module.exports = { sortfilesbyexperiment }

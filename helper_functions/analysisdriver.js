@@ -31,7 +31,9 @@ function computeStatic(file) {
 
 function fileDriver(experiments, _callback) {
   let driver = async (_) => {
+    // console.log(experiments)
     for ([key, val] of Object.entries(experiments)) {
+      console.log(key)
         if (!fs.existsSync(`${val["path"]}\\Data`)) {
             fs.mkdirSync(`${val["path"]}\\Data`);
         }
