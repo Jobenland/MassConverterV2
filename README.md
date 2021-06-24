@@ -9,6 +9,7 @@ Written by [Jonathan Obenland](https://github.com/jobenland)
 
 Open the location of the repo and run `npm install`. This will automatically install all the dependenices that are necessary to run the program
 ## Screenshots
+![Example](screenshots/B9EH801QXa.png)
 
 ## How to run
 
