@@ -2,7 +2,6 @@ const fs = require("fs")
 const lineReader = require("line-reader")
 const { resolve } = require("path")
 
-//FIXME do you want number before or after cross
 function locateFirstCross(arr) {
     return new Promise(function (resolve, reject) {
         for (let index = 0; index < arr.length; index++) {
@@ -11,10 +10,33 @@ function locateFirstCross(arr) {
             } else {
                 let currentValues = arr[index].split("\t")
                 let nextValues = arr[index+1].split("\t")
-                console.log(currentValues)
-                if (Number(currentValues[1]) > 0) {
-                    if(Number(nextValues[1]) < 0){
-                        resolve(currentValues[1]) 
+                // console.log(currentValues)
+                if (Number(currentValues[5]) > 0) {
+                    if(Number(nextValues[5]) < 0){
+                        resolve([Number(currentValues[5]),Number(currentValues[4])])
+                    }
+                }
+            }
+        }
+    })
+}
+
+function locateSecondCross(arr, first, firstCorrespondingValue) {
+    return new Promise(function (resolve, reject) {
+        if (first === -9999){
+            resolve(-9999)
+        }
+        for (let index = 0; index < arr.length; index++) {
+            if (index === arr.length-1) {
+                let currentValues = arr[index].split("\t")
+                resolve(currentValues[5])
+            } else {
+                let currentValues = arr[index].split("\t")
+                let nextValues = arr[index+1].split("\t")
+                // console.log(currentValues)
+                if (Number(currentValues[5]) < 0 && Number(currentValues[4]) > firstCorrespondingValue) {
+                    if(Number(nextValues[5]) > 0){
+                        resolve(Number(currentValues[5]))
                     }
                 }
             }
@@ -52,36 +74,29 @@ function gatherData(file) {
     })
 }
 
-function multiplyMax(arr) {
-    return new Promise(function (resolve, reject) {
-        let max = -999999
-        let multiply = []
-        for (let index = 0; index < arr.length; index++) {
-            if (index === arr.length-1) {
-                let max = multiply.reduce((a, b) => { return Math.max(a, b) });
-                resolve(max)
-            } else {
-                let currentValues = arr[index].split("\t")
-                multiply.push(Number(currentValues[1])*Number(currentValues[2]))
-            }
-        }
-    })
-}
-
 function compute(file, _callback) {
     let data = []
+    let firstValue = -9999
     let values = {
         time: "",
-        ppd: -9999,
+        ohmic: -9999,
+        tasr: -9999,
+        electrode: -9999,
     }
     let analyze = async (_) => {
         await gatherData(file).then(function (result) {
             data = result[0]
             values['time'] = `${result[1]} ${result[2]}`
         })
-        await multiplyMax(data).then(function (result) {
-            values['ppd'] = result
+        await locateFirstCross(data).then(function (result) {
+            values['ohmic'] = result[0]
+            firstValue = result[1]
+
         })
+        await locateSecondCross(data, values['ohmic'], firstValue).then(function (result) {
+            values['tasr'] = result
+        })
+        values['electrode'] = values['ohmic'] - values['tasr']
         _callback(values)
     }
     analyze()

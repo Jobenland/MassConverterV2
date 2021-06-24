@@ -34,7 +34,6 @@ function analyzeFiles(experimentDict) {
 console.log("Mass Converter v2".yellow)
 console.log("Maryland Energy Innovation Institute".blue)
 let arguments = process.argv
-console.log(arguments)
 if (arguments.length > 2) {
     let foldersCreated = ['C:\\Users\\Jonathan\\MassConverterV2\\test\\EIS_OCV_IV_600_aging_100sccmO2']
     let experimentTypes = {}
