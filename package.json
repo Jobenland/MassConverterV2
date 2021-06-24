@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Jobenland/MassConverterV2#readme",
   "dependencies": {
+    "colors": "^1.4.0",
     "csv-writer": "^1.6.0",
     "decompress": "^4.2.1",
     "figlet": "^1.5.0",
