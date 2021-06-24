@@ -2,6 +2,10 @@ const fs = require("fs")
 const lineReader = require("line-reader")
 const { resolve } = require("path")
 
+function x_intercept(a, b) {
+    return a[0] - a[1]*(b[0]-a[0])/(b[1]-a[1]);
+}
+
 function locateFirstCross(arr) {
     return new Promise(function (resolve, reject) {
         for (let index = 0; index < arr.length; index++) {
@@ -13,7 +17,8 @@ function locateFirstCross(arr) {
                 // console.log(currentValues)
                 if (Number(currentValues[5]) > 0) {
                     if(Number(nextValues[5]) < 0){
-                        resolve([Number(currentValues[5]),Number(currentValues[4])])
+                        // console.log(`(${currentValues[4]},${currentValues[5]}), (${nextValues[4]},${nextValues[5]}) = ${x_intercept([currentValues[4],currentValues[5]],[nextValues[4],nextValues[5]]),nextValues[4]}`)
+                        resolve([(Number(x_intercept([currentValues[4],currentValues[5]],[nextValues[4],nextValues[5]]))),nextValues[4]])
                     }
                 }
             }
@@ -35,7 +40,7 @@ function locateSecondCross(arr, first, firstCorrespondingValue) {
                 let nextValues = arr[index+1].split("\t")
                 if (Number(currentValues[5]) < 0 && Number(currentValues[4]) > firstCorrespondingValue) {
                     if(Number(nextValues[5]) > 0){
-                        resolve(Number(currentValues[5]))
+                        resolve(Number(x_intercept([currentValues[4],currentValues[5]],[nextValues[4],nextValues[5]])))
                     }
                 }
             }
@@ -95,7 +100,7 @@ function compute(file, _callback) {
         await locateSecondCross(data, values['ohmic'], firstValue).then(function (result) {
             values['tasr'] = result
         })
-        values['electrode'] = values['ohmic'] - values['tasr']
+        values['electrode'] = values['tasr'] - values['ohmic']
         _callback(values)
     }
     analyze()
