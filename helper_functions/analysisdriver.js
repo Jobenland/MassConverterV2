@@ -105,7 +105,7 @@ function fileDriver(experiments, _callback) {
                 { id: "time", title: "Time" },
                 { id: "ev", title: "E(V)" },
                 { id: "i", title: "I(A/cm2)" },
-                { id: "osv", title: "OSV" },
+                { id: "ocv", title: "OCV" },
             ],
             staticData,
             `${val["path"]}\\Data\\Galvanostatic+OCV.csv`
@@ -130,7 +130,7 @@ function fileDriver(experiments, _callback) {
                 { id: "time", title: "Time" },
                 { id: "ev", title: "E(V)" },
                 { id: "i", title: "I(A/cm2)" },
-                { id: "osv", title: "OSV" },
+                { id: "ocv", title: "OCV" },
             ],
             staticData,
             `${val["path"]}\\Data\\Potentiostatic+OCV.csv`

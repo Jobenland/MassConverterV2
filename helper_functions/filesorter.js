@@ -12,7 +12,7 @@ function sortfilesbyexperiment(folders, _callback){
             galvanodynamic: [],
             galvanostatic: [],
             potentiostatic: [],
-            osv: []
+            ocv: []
         }
         fs.readdir(`${folder}\\Run01`, (err, files) => {
             if (err) {
@@ -30,7 +30,7 @@ function sortfilesbyexperiment(folders, _callback){
                             } else if (line.includes("Potentiostatic")) {
                                 experimentFiles['potentiostatic'].push(`${folder}\\Run01\\${file}`)
                             } else if (line.includes("Open Circuit")) {
-                                experimentFiles['osv'].push(`${folder}\\Run01\\${file}`)
+                                experimentFiles['ocv'].push(`${folder}\\Run01\\${file}`)
                             }
                         }
                         if (last) {

@@ -2,16 +2,16 @@ const fs = require("fs")
 const lineReader = require("line-reader")
 const { resolve } = require("path")
 
-function gatherMinute(arr,osvValue) {
+function gatherMinute(arr,ocvValue) {
     return new Promise(function (resolve, reject) {
         data = []
         for (let index = 0; index < arr.length; index++) {
             if (index % 60 === 0) {
                 let values = arr[index].split("\t")
                 if (index === 0) {
-                    data.push({time: values[0], ev: values[1], i: values[2], osv: osvValue})
+                    data.push({time: values[0], ev: values[1], i: values[2], ocv: ocvValue})
                 } else {
-                    data.push({time: values[0], ev: values[1], i: values[2], osv: ""})
+                    data.push({time: values[0], ev: values[1], i: values[2], ocv: ""})
                 }
             }
             if (index === arr.length-1) {
@@ -27,7 +27,7 @@ function gatherData(file) {
         let data = []
         let date = ""
         let time = ""
-        let osv = ""
+        let ocv = ""
         lineReader.eachLine(file, function(line, last) {
             if (!inHeader) {
                 data.push(line)
@@ -39,7 +39,7 @@ function gatherData(file) {
                 time = line.replace("Time:","").trim()
             }
             if (line.includes("Open Circuit Potential")) {
-                osv = line.replace("Open Circuit Potential (V):","").trim()
+                ocv = line.replace("Open Circuit Potential (V):","").trim()
             }
             if (line.includes("End Header:")) {
                 inHeader = false
@@ -49,7 +49,7 @@ function gatherData(file) {
                 package.push(data)
                 package.push(date)
                 package.push(time)
-                package.push(osv)
+                package.push(ocv)
                 resolve(package)
             }
         })
@@ -59,13 +59,13 @@ function gatherData(file) {
 function compute(file, _callback) {
     let data = []
     let smallerData = []
-    let osv = 0
+    let ocv = 0
     let analyze = async (_) => {
         await gatherData(file).then(function (result) {
             data = result[0]
-            osv = result[3]
+            ocv = result[3]
         })
-        await gatherMinute(data, osv).then(function (result) {
+        await gatherMinute(data, ocv).then(function (result) {
             smallerData = result
         })
         _callback(smallerData)
