@@ -39,7 +39,7 @@ function analyzeFiles(experimentDict) {
 
 let arguments = process.argv
 if (arguments.length > 2) {
-    let foldersCreated = ['C:\\Users\\Jonathan\\MassConverterV2\\test\\EIS_OCV_IV_600_aging_100sccmO2']
+    let foldersCreated = []
     let experimentTypes = {}
     let analyzedFiles = false
     let mainFunction = async (_) => {
