@@ -24,10 +24,10 @@ In order to keep the file structure as organized as possible. Each function has 
 {
   "Folder path": {
     "path": "folder path",
-    "impedance": [----.z, -----.z, ------z],
-    "galvanodynamic": [----.z, -----.z, ------z],
-    "galvanostatic": [----.z, -----.z, ------z],
-    "potentionstatic": [----.z, -----.z, ------z]
+    "impedance": [----.z, -----.z, ------.z],
+    "galvanodynamic": [----.cor, -----.cor, ------.cor],
+    "galvanostatic": [----.cor, -----.cor, ------.cor],
+    "potentionstatic": [----.cor, -----.cor, ------.cor]
    }
 }
 ```
