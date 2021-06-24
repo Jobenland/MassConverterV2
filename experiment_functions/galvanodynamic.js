@@ -28,7 +28,6 @@ function gatherData(file) {
         let data = []
         let date = ""
         let time = ""
-        console.log("gathering data")
         lineReader.eachLine(file, function(line, last) {
             if (!inHeader) {
                 data.push(line)
@@ -70,7 +69,6 @@ function multiplyMax(arr) {
     })
 }
 function compute(file, _callback) {
-    console.log(`LOOKING AT: ${file}`)
     let data = []
     let values = {
         time: "",

@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Jobenland/MassConverterV2#readme",
   "dependencies": {
+    "csv-writer": "^1.6.0",
     "decompress": "^4.2.1",
     "line-reader": "^0.4.0",
     "mkdirp": "^1.0.4",
