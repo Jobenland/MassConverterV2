@@ -10,7 +10,6 @@ Written by [Jonathan Obenland](https://github.com/jobenland)
 Open the location of the repo and run `npm install`. This will automatically install all the dependenices that are necessary to run the program
 ## Screenshots
 ![Example](screenshots/B9EH801QXa.png)
-
 ## How to run
 
 Once the dependenices are installed, you can run the program by typing `node index.js <path of folder containing MDAT files`. Please note: if you are on a windows device you may need to include double backslashes on the directory path to avoid the character escapes. For example `node index.js C:\\Users\\Jonathan\\MassConverterV2\\test`
