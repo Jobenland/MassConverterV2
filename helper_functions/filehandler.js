@@ -43,8 +43,6 @@ function manipulateFiles(initialPath, _callback){
         })
         let foldersCreated = []
         for (let index = 0; index < files.length; index++) {
-            let file = files[index]
-            console.log(files[index])
             extensionChanged = false
             filesChecked++
             if (path.extname(files[index]) == ".mdat") {
@@ -53,9 +51,7 @@ function manipulateFiles(initialPath, _callback){
                     extensionChanged = true 
                 })
                 await decompressZip(newPath, `${initialPath}\\${files[index].replace(/\.[^/.]+$/, "")}`).then(function (result) {
-                    console.log(result)
                     foldersCreated = foldersCreated.concat(result)
-                    console.log(foldersCreated)
                 })
                 if (filesChecked === files.length) {
                     _callback(foldersCreated)
