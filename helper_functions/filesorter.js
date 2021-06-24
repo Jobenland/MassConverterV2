@@ -7,6 +7,7 @@ function sortfilesbyexperiment(folders, _callback){
     folders.forEach(folder => {
         foldersParsed++
         let experimentFiles = {
+            path: folder,
             impedance: [],
             galvanodynamic: [],
             galvanostatic: [],
