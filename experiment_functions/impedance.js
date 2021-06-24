@@ -33,7 +33,6 @@ function locateSecondCross(arr, first, firstCorrespondingValue) {
             } else {
                 let currentValues = arr[index].split("\t")
                 let nextValues = arr[index+1].split("\t")
-                // console.log(currentValues)
                 if (Number(currentValues[5]) < 0 && Number(currentValues[4]) > firstCorrespondingValue) {
                     if(Number(nextValues[5]) > 0){
                         resolve(Number(currentValues[5]))

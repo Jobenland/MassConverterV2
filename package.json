@@ -19,7 +19,10 @@
   "dependencies": {
     "csv-writer": "^1.6.0",
     "decompress": "^4.2.1",
+    "figlet": "^1.5.0",
+    "figures": "^3.2.0",
     "line-reader": "^0.4.0",
+    "log-symbols": "^5.0.0",
     "mkdirp": "^1.0.4",
     "replace-ext": "^2.0.0"
   }

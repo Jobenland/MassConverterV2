@@ -33,22 +33,22 @@ function fileDriver(experiments, _callback) {
       **************
       */
     
-    //   let galvanodynamicData = [];
-    //   for (let index = 0; index < val["galvanodynamic"].length; index++) {
-    //     await computeGalvanodynamic(val["galvanodynamic"][index]).then(
-    //       function (result) {
-    //         galvanodynamicData.push(result);
-    //       }
-    //     );
-    //   }
-    //   filegenerator.createCSV(
-    //     [
-    //       { id: "time", title: "Time" },
-    //       { id: "ppd", title: "PPD" },
-    //     ],
-    //     galvanodynamicData,
-    //     `${val["path"]}\\Data\\Galvanodynamic.csv`
-    //   );
+      let galvanodynamicData = [];
+      for (let index = 0; index < val["galvanodynamic"].length; index++) {
+        await computeGalvanodynamic(val["galvanodynamic"][index]).then(
+          function (result) {
+            galvanodynamicData.push(result);
+          }
+        );
+      }
+      filegenerator.createCSV(
+        [
+          { id: "time", title: "Time" },
+          { id: "ppd", title: "PPD" },
+        ],
+        galvanodynamicData,
+        `${val["path"]}\\Data\\Galvanodynamic.csv`
+      );
 
 
       /*

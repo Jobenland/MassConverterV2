@@ -1,4 +1,6 @@
 const createCSVWriter = require('csv-writer').createObjectCsvWriter
+const figures = require('figures');
+const colors = require("colors")
 
 function createCSV(headers,data,path){
     let csvWriter = createCSVWriter({
@@ -6,7 +8,7 @@ function createCSV(headers,data,path){
         header: headers
     })
     csvWriter.writeRecords(data).then(()=> {
-        console.log("Successfully created file")
+        console.log(figures.tick.green, "Successfully created file at", `${path}`.red)
     })
 }
 

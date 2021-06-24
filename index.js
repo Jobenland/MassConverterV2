@@ -1,4 +1,6 @@
 const colors = require("colors")
+const figlet = require("figlet")
+const figures = require('figures')
 const filehandler = require("./helper_functions/filehandler")
 const filesorter = require("./helper_functions/filesorter")
 const analysisdriver = require("./helper_functions/analysisdriver")
@@ -23,6 +25,8 @@ function sortFiles(folders) {
     })
 }
 
+//This is the main driver that iterates through the files and tells the
+//program what calculation to perform
 function analyzeFiles(experimentDict) {
     return new Promise(function (resolve, reject) {
         analysisdriver.fileDriver(experimentDict, function(worked) {
@@ -31,28 +35,35 @@ function analyzeFiles(experimentDict) {
     })
 }
 
-console.log("Mass Converter v2".yellow)
-console.log("Maryland Energy Innovation Institute".blue)
+
+
 let arguments = process.argv
 if (arguments.length > 2) {
     let foldersCreated = ['C:\\Users\\Jonathan\\MassConverterV2\\test\\EIS_OCV_IV_600_aging_100sccmO2']
     let experimentTypes = {}
     let analyzedFiles = false
     let mainFunction = async (_) => {
-        // await getFolders().then(function (result) {
-        //     foldersCreated = result
-        // })
+        figlet("MEII", function (err, data) {
+            console.log(data.cyan)
+            console.log("Mass Converter v2 by Jonathan Obenland".yellow)
+        })
+        await getFolders().then(function (result) {
+                foldersCreated = result
+            })
+        console.log(figures.tick.green, "Found MDAT Files and extracted their contents...")
         await sortFiles(foldersCreated).then(function (result) {
             experimentTypes = result
         })
+        console.log(figures.tick.green, "Organized individual files into experiment specific categories...")
         await analyzeFiles(experimentTypes).then(function (result) {
             analyzedFiles = result
         })
+        console.log(figures.tick.green, "Process Complete!")
         
 
     }
     mainFunction()
 } else {
-    console.log("Error! No argument was given. (Ex. 'node index.js <filepath to mdat files>)".red)
+    console.log(figures.cross.red, "Error! No argument was given. (Ex. 'node index.js <filepath to mdat files>)".red)
 }
 
