@@ -96,8 +96,8 @@ function fileDriver(experiments, _callback) {
             let staticData = [];
             for (let index = 0; index < val["galvanostatic"].length; index++) {
             await computeStatic(val["galvanostatic"][index]).then(function (result) {
-                    staticData.concat(result)
-                }
+                  staticData =staticData.concat(result)
+              }
             );
             }
             filegenerator.createCSV(
