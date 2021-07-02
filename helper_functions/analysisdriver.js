@@ -5,6 +5,25 @@ const static = require("../experiment_functions/static")
 const filegenerator = require("../helper_functions/filegenerator");
 const path = require("path")
 
+function findMinTime(staticData) {
+  return new Promise(function (resolve, reject) {
+      let timeArray = []
+      let minTime = 0
+      for (let index = 0; index < staticData.length; index++) {
+        timeArray = timeArray.concat(staticData[index]["normalizedTime"])
+      }
+      minTime = Math.min(...timeArray)
+      for (let index = 0; index < staticData.length; index++) {
+        staticData[index]["normalizedTime"] = staticData[index]["normalizedTime"] - minTime
+        // let newDate = new Date(staticData[index]["time"])
+        // newDate.setSeconds(newDate.getSeconds() + staticData[index]["normalizedTime"])
+        // staticData[index]["time"] = `${("0" + (newDate.getMonth() + 1)).slice(-2)}/${("0" + newDate.getDate()).slice(-2)}/${newDate.getFullYear().toString()} ${("0" + newDate.getHours()).slice(-2).toString()}:${("0" + newDate.getMinutes()).slice(-2).toString()}:${("0" + newDate.getSeconds()).slice(-2).toString()}`
+      }
+      
+      resolve(staticData)
+  });
+}
+
 function computeGalvanodynamic(file) {
   return new Promise(function (resolve, reject) {
     galvanodynamic.compute(file, function (worked) {
@@ -99,17 +118,22 @@ function fileDriver(experiments, _callback) {
                   staticData =staticData.concat(result)
               }
             );
+          }
+          await findMinTime(staticData).then(function (result) {
+                staticData = result
             }
-            filegenerator.createCSV(
-            [
-                { id: "time", title: "Time" },
-                { id: "ev", title: "E(V)" },
-                { id: "i", title: "I(A/cm2)" },
-                { id: "ocv", title: "OCV" },
-            ],
-            staticData,
-            `${val["path"]}\\Data\\Galvanostatic+OCV.csv`
-            );
+          );
+          filegenerator.createCSV(
+          [
+              { id: "time", title: "Time (EPOCH)" },
+              { id: "normalizedTime", title: "Normalized Time" },
+              { id: "ev", title: "E(V)" },
+              { id: "i", title: "I(A/cm2)" },
+              { id: "ocv", title: "OCV" },
+          ],
+          staticData,
+          `${val["path"]}\\Data\\Galvanostatic+OCV.csv`
+          );
         } else if (val["potentiostatic"].length > 0) {
 
             /*
@@ -120,11 +144,15 @@ function fileDriver(experiments, _callback) {
         
             let staticData = [];
             for (let index = 0; index < val["potentiostatic"].length; index++) {
-            await computeStatic(val["potentiostatic"][index]).then(function (result) {
-                    staticData = staticData.concat(result)
-                }
-            );
+              await computeStatic(val["potentiostatic"][index]).then(function (result) {
+                      staticData = staticData.concat(result)
+                  }
+              );
             }
+            await findMinTime(staticData).then(function (result) {
+                staticData = result
+              }
+            );
             filegenerator.createCSV(
             [
                 { id: "time", title: "Time" },

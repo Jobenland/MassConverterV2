@@ -2,16 +2,17 @@ const fs = require("fs")
 const lineReader = require("line-reader")
 const { resolve } = require("path")
 
-function gatherMinute(arr,ocvValue) {
+function gatherMinute(arr,ocvValue, time) {
     return new Promise(function (resolve, reject) {
         data = []
         for (let index = 0; index < arr.length; index++) {
-            if (index % 60 === 0) {
+            if (index % 300 === 0) {
                 let values = arr[index].split("\t")
+                let date = new Date(time)
                 if (index === 0) {
-                    data.push({time: values[0], ev: values[1], i: values[2], ocv: ocvValue})
+                    data.push({time: `${date.getTime()}`, normalizedTime: Number(values[0]), ev: values[1], i: values[2], ocv: ocvValue})
                 } else {
-                    data.push({time: values[0], ev: values[1], i: values[2], ocv: ""})
+                    data.push({time: `${date.getTime()}`, normalizedTime: Number(values[0]), ev: values[1], i: values[2], ocv: ""})
                 }
             }
             if (index === arr.length-1) {
@@ -63,9 +64,10 @@ function compute(file, _callback) {
     let analyze = async (_) => {
         await gatherData(file).then(function (result) {
             data = result[0]
+            time = `${result[1]} ${result[2]}`
             ocv = result[3]
         })
-        await gatherMinute(data, ocv).then(function (result) {
+        await gatherMinute(data, ocv, time).then(function (result) {
             smallerData = result
         })
         _callback(smallerData)

@@ -46,7 +46,7 @@ if (arguments.length > 2) {
         figlet("MEII", function (err, data) {
             console.log(data.cyan)
             console.log("Mass Converter v2 by Jonathan Obenland".yellow)
-            console.log("v0.5-beta.2".green)
+            console.log("v0.5-beta.3".green)
         })
         await getFolders().then(function (result) {
                 foldersCreated = result
